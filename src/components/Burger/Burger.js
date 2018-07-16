@@ -9,8 +9,6 @@ const burger = (props) => {
 				return <BurgerIngredients key={igKey+i} type={igKey} />
 			});
 		}).reduce((arr, el) => {
-			console.log(arr);
-			console.log(el);
 			return arr.concat(el);
 		}, []);
 
@@ -24,6 +22,7 @@ const burger = (props) => {
 			<BurgerIngredients type="bread-top" />
 				{transformedIngredients}
 			<BurgerIngredients type="bread-bottom" />
+			<p>Burger Price is: £{props.price}</p>
 		</div>
 	);
 }
