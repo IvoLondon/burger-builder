@@ -22,7 +22,6 @@ const burger = (props) => {
 			<BurgerIngredients type="bread-top" />
 				{transformedIngredients}
 			<BurgerIngredients type="bread-bottom" />
-			<p>Burger Price is: £{props.price}</p>
 		</div>
 	);
 }

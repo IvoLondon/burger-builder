@@ -73,10 +73,17 @@ class BurgerBuilder extends Component {
 		})
 	}
 	readyToOrderHandler = () => {
-		console.log('click');
 		this.setState({
 			purchasing : true,
 		})
+	}
+	cancelReadyToOrderHandler = () => {
+		this.setState({
+			purchasing : false,
+		})
+	}
+	continueOrderHandler = () => {
+		alert('Continue');
 	}
 	render() {
 		const disableButton = {
@@ -87,11 +94,12 @@ class BurgerBuilder extends Component {
 		}
 		return (
 			<div>
-				<Burger price={this.state.burgerTotal} ingredients={this.state.ingredients} />
-				<Modal show={this.state.purchasing}>
-					<OrderSummary ingredients={this.state.ingredients} />
+				<Burger ingredients={this.state.ingredients} />
+				<Modal show={this.state.purchasing} cancel={this.cancelReadyToOrderHandler}>
+					<OrderSummary ingredients={this.state.ingredients} cancelOrder={this.cancelReadyToOrderHandler} continueOrder={this.continueOrderHandler} />
 				</Modal>
 				<BuildControls
+					price={this.state.burgerTotal}
 					addIngredient={this.addIngredientsHandler}
 					removeIngredient={this.removeIngredientsHandler}
 					disableButton={disableButton}
