@@ -12,7 +12,7 @@ const orderSummary = (props) => {
 	});
 	return (
 		<Aux>
-			<h3>Your Order</h3>
+			<h3>Your Order £{props.price}</h3>
 			<p>Your delicious burger contains the following ingredients:</p>
 			<ul>
 				{orderSummary}
