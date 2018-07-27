@@ -1,8 +1,9 @@
 import React from 'react';
 import classes from './Toolbar.css'
 import Logo from '../../Logo/Logo'
+import NavItems from '../NavItems/NavItems'
 
-const toolbar = () => {
+const toolbar = (props) => {
 	return (
 		<div className={classes.Toolbar}>
 			<div>
@@ -12,7 +13,7 @@ const toolbar = () => {
 				<Logo />
 			</div>
 			<div>
-				Options
+				<NavItems mobileToggle={props.mobileToggle} />
 			</div>
 		</div>
 	)

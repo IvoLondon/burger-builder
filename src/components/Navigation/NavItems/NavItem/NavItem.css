@@ -1,0 +1,12 @@
+.NavItem {
+	display:block;
+}
+.NavItem a {
+	color:#fff;
+	text-decoration: none;
+	background-color:#d97330;
+	padding:10px 14px;
+}
+.NavItem a:hover {
+	background-color:#99703F;
+}

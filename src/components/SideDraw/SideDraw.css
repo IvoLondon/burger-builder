@@ -1,0 +1,13 @@
+.SideDraw {
+	width:250px;
+	position:absolute;
+	top:0;
+	left:-100%;
+	height:100%;
+	background-color:#fff;
+	transition:0.2s ease-in-out;
+}
+
+.SideDraw.Open {
+	left:0%;
+}
