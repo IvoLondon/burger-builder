@@ -5,6 +5,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 
@@ -101,7 +102,7 @@ class BurgerBuilder extends Component {
                 email : 'test@dusted.com',
             }
         }
-        axios.post('/orders.json', order)
+        axios.post('/orders', order)
         .then((response) => {
             this.setState({
                 purchasing : false,
@@ -152,4 +153,4 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
