@@ -84,38 +84,48 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        this.setState({
-            loading : true,
-        });
-        const order = {
-            ingredients : this.state.ingredients,
-            price : this.state.price,
-            customer : {
-                name : 'Max',
-                address : {
-                    city : 'London',
-                    postcode : 'N19',
-                },
-                email : 'test@dusted.com',
-            }
+        // this.setState({
+        //     loading : true,
+        // });
+        // const order = {
+        //     ingredients : this.state.ingredients,
+        //     price : this.state.price,
+        //     customer : {
+        //         name : 'Max',
+        //         address : {
+        //             city : 'London',
+        //             postcode : 'N19',
+        //         },
+        //         email : 'test@dusted.com',
+        //     }
+        // }
+        // axios.post('/orders', order)
+        // .then((response) => {
+        //     this.setState({
+        //         purchasing : false,
+        //         loading : false,
+        //     });
+        // })
+        // .catch((err) => {
+        //     this.setState({
+        //         purchasing : false,
+        //         loading : false,
+        //     });
+        // });
+        const queryParams = [];
+
+        for(let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-        axios.post('/orders', order)
-        .then((response) => {
-            this.setState({
-                purchasing : false,
-                loading : false,
-            });
-        })
-        .catch((err) => {
-            this.setState({
-                purchasing : false,
-                loading : false,
-            });
+
+        this.props.history.push({
+            pathname : '/checkout',
+            search : '?' + queryParams.join('&'),
+
         });
     }
     
     componentDidMount() {
-        console.log(this.state.ingredients);
         axios.get('https://react-my-burger-d406e.firebaseio.com/ingredients.json')
             .then(response => {
                 this.setState({
