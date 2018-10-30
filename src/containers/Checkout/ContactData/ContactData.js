@@ -8,11 +8,49 @@ import axios from '../../../axios-orders';
 
 class ContactData extends Component {
 	state = {
-		name : '',
-		email : '',
-		address : {
-			street : '',
-			postCode : '',
+		orderForm : {
+            name : {
+            	elementType : 'input',
+            	elementConfig : {
+            		type : 'text',
+            		placeholder : 'Name',
+            	},
+            	value : ''
+            },
+            city : {
+            	elementType : 'input',
+            	elementConfig : {
+            		type : 'text',
+            		placeholder : 'City',
+            	},
+            	value : ''
+            },
+            postcode : {
+            	elementType : 'input',
+            	elementConfig : {
+            		type : 'text',
+            		placeholder : 'Post Code',
+            	},
+            	value : ''
+            },
+            email : {
+            	elementType : 'input',
+            	elementConfig : {
+            		type : 'email',
+            		placeholder : 'E-mail',
+            	},
+            	value : ''
+            },
+            delivery : {
+            	elementType : 'select',
+            	elementConfig : {
+	            	options : [
+	            		{value : 'fastest', displayName : 'Fastest'},
+	            		{value : 'cheapest', displayName : 'Cheapest'},
+	            	]
+            	}
+            },
+            
 		},
 		loading : false,
 	}
@@ -24,14 +62,7 @@ class ContactData extends Component {
         const order = {
             ingredients : this.props.ingredients,
             price : this.props.price,
-            customer : {
-                name : 'Max',
-                address : {
-                    city : 'London',
-                    postcode : 'N19',
-                },
-                email : 'test@dusted.com',
-            }
+            
         }
         axios.post('/orders.json', order)
         .then((response) => {
@@ -48,13 +79,30 @@ class ContactData extends Component {
             });
         });
 	}
+
 	render() {
+
+		let formElements = [];
+		for(let key in this.state.orderForm) {
+			formElements.push({
+				id : key,
+				config : this.state.orderForm[key],
+			})
+		}
+
 		let form = (
 			<form >
-				<Input className={classes.Input} type="text" name="name" placeholder="Name" label="Name" />
-				<Input className={classes.Input} type="email" name="email" placeholder="Email" label="Email" />
-				<Input className={classes.Input} type="text" name="street" placeholder="Street" label="Street" />
-				<Input className={classes.Input} type="text" name="postcode" placeholder="Post Code" label="Post Code" />
+				{formElements.map((el) => {
+					return (
+						<Input
+							key={el.id}
+							elementType={el.config.elementType}
+							elementConfig={el.config.elementConfig}
+							value={el.config.value}
+							label={el.id} />
+						)
+				})}
+				
 				<Button btnType="Success" clicked={this.submitOrderHandler}>Submit</Button>
 			</form>
 		)

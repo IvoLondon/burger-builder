@@ -8,5 +8,10 @@
     box-sizing: border-box;
 }
 .Input:focus {
-	background-color:#000;
+	background-color:#f9f9f9;
+}
+.Label {
+	display:block;
+	margin-bottom:3px;
+	font-size:12px;
 }
