@@ -15,3 +15,6 @@
 	margin-bottom:3px;
 	font-size:12px;
 }
+.Invalid {
+	border:1px solid red;
+}

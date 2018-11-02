@@ -20,6 +20,7 @@ class ContactData extends Component {
                     requiredField : true,
                 },
                 valid : false,
+                touched : false,
             },
             city : {
             	elementType : 'input',
@@ -29,9 +30,10 @@ class ContactData extends Component {
             	},
             	value : '',
                 validation : {
-                    requiredField : true,
+                    
                 },
                 valid : false,
+                touched : false,
             },
             postcode : {
             	elementType : 'input',
@@ -46,6 +48,7 @@ class ContactData extends Component {
                     maxLength : 5,
                 },
                 valid : false,
+                touched : false,
             },
             email : {
             	elementType : 'input',
@@ -58,6 +61,7 @@ class ContactData extends Component {
                     requiredField : true,
                 },
                 valid : false,
+                touched : false,
             },
             delivery : {
             	elementType : 'select',
@@ -71,6 +75,7 @@ class ContactData extends Component {
                     
                 },
                 valid : true,
+                touched : false,
             },
             
 		},
@@ -137,7 +142,8 @@ class ContactData extends Component {
         }
 
         updatedElements.value = ev.target.value;
-        updatedElements.valid = this.checkValidityHandler(updatedElements.value, updatedElements.validation)
+        updatedElements.valid = this.checkValidityHandler(updatedElements.value, updatedElements.validation);
+        updatedElements.touched = true;
         updatedFormOrderForm[id] = updatedElements;
 
         this.setState({
@@ -166,6 +172,9 @@ class ContactData extends Component {
 							value={el.config.value}
 							label={el.id}
                             change={(event) => this.changeValueHandler(event, el.id)}
+                            invalid={!el.config.valid}
+                            shouldValidate={el.config.validation}
+                            touched = {el.config.touched}
                         />
                             
 						)
