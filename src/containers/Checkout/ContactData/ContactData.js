@@ -15,7 +15,11 @@ class ContactData extends Component {
             		type : 'text',
             		placeholder : 'Name',
             	},
-            	value : ''
+            	value : '',
+                validation : {
+                    requiredField : true,
+                },
+                valid : false,
             },
             city : {
             	elementType : 'input',
@@ -23,7 +27,11 @@ class ContactData extends Component {
             		type : 'text',
             		placeholder : 'City',
             	},
-            	value : ''
+            	value : '',
+                validation : {
+                    requiredField : true,
+                },
+                valid : false,
             },
             postcode : {
             	elementType : 'input',
@@ -31,7 +39,13 @@ class ContactData extends Component {
             		type : 'text',
             		placeholder : 'Post Code',
             	},
-            	value : ''
+            	value : '',
+                validation : {
+                    requiredField : true,
+                    minLength : 5,
+                    maxLength : 5,
+                },
+                valid : false,
             },
             email : {
             	elementType : 'input',
@@ -39,7 +53,11 @@ class ContactData extends Component {
             		type : 'email',
             		placeholder : 'E-mail',
             	},
-            	value : ''
+            	value : '',
+                validation : {
+                    requiredField : true,
+                },
+                valid : false,
             },
             delivery : {
             	elementType : 'select',
@@ -48,7 +66,11 @@ class ContactData extends Component {
 	            		{value : 'fastest', displayName : 'Fastest'},
 	            		{value : 'cheapest', displayName : 'Cheapest'},
 	            	]
-            	}
+            	},
+                validation : {
+                    
+                },
+                valid : true,
             },
             
 		},
@@ -59,10 +81,17 @@ class ContactData extends Component {
 		this.setState({
             loading : true,
         });
+        let orderDetails = {};
+
+        for(let formElement in this.state.orderForm) {
+            orderDetails[formElement] =  this.state.orderForm[formElement].value
+
+        }
+
         const order = {
             ingredients : this.props.ingredients,
             price : this.props.price,
-            
+            order : orderDetails,
         }
         axios.post('/orders.json', order)
         .then((response) => {
@@ -79,6 +108,42 @@ class ContactData extends Component {
             });
         });
 	}
+    checkValidityHandler = (el, rules) => {
+
+        let validationPass = true;
+        console.log(el.length);
+        if(rules.requiredField) {
+            validationPass = el.trim() != '' && validationPass;
+        }
+        
+        if(rules.minLength) {
+            validationPass = el.length >= rules.minLength && validationPass;
+        }
+
+        if(rules.maxLength) {
+            validationPass = el.length <= rules.maxLength && validationPass;
+        }
+
+        console.log(validationPass);
+        return validationPass;
+
+    }
+    changeValueHandler = (ev, id) => {
+        const updatedFormOrderForm = {
+            ...this.state.orderForm
+        }
+        const updatedElements = {
+            ...updatedFormOrderForm[id]
+        }
+
+        updatedElements.value = ev.target.value;
+        updatedElements.valid = this.checkValidityHandler(updatedElements.value, updatedElements.validation)
+        updatedFormOrderForm[id] = updatedElements;
+
+        this.setState({
+            orderForm : updatedFormOrderForm,
+        })
+    }
 
 	render() {
 
@@ -91,7 +156,7 @@ class ContactData extends Component {
 		}
 
 		let form = (
-			<form >
+			<form onSubmit={this.submitOrderHandler}>
 				{formElements.map((el) => {
 					return (
 						<Input
@@ -99,11 +164,14 @@ class ContactData extends Component {
 							elementType={el.config.elementType}
 							elementConfig={el.config.elementConfig}
 							value={el.config.value}
-							label={el.id} />
+							label={el.id}
+                            change={(event) => this.changeValueHandler(event, el.id)}
+                        />
+                            
 						)
 				})}
 				
-				<Button btnType="Success" clicked={this.submitOrderHandler}>Submit</Button>
+				<Button btnType="Success">Submit</Button>
 			</form>
 		)
 		if(this.state.loading) {
