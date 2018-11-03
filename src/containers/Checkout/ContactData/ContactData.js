@@ -80,6 +80,7 @@ class ContactData extends Component {
             
 		},
 		loading : false,
+		checkFormCompletion : false,
 	}
 	submitOrderHandler = (event) => {
 		event.preventDefault();
@@ -116,7 +117,6 @@ class ContactData extends Component {
     checkValidityHandler = (el, rules) => {
 
         let validationPass = true;
-        console.log(el.length);
         if(rules.requiredField) {
             validationPass = el.trim() != '' && validationPass;
         }
@@ -129,7 +129,6 @@ class ContactData extends Component {
             validationPass = el.length <= rules.maxLength && validationPass;
         }
 
-        console.log(validationPass);
         return validationPass;
 
     }
@@ -146,8 +145,14 @@ class ContactData extends Component {
         updatedElements.touched = true;
         updatedFormOrderForm[id] = updatedElements;
 
+        let checkFormCompletion = true;
+        for(let validity in updatedFormOrderForm) {
+        	checkFormCompletion = updatedFormOrderForm[validity].valid && checkFormCompletion
+        }
+        console.log(checkFormCompletion);
         this.setState({
             orderForm : updatedFormOrderForm,
+            checkFormCompletion : checkFormCompletion,
         })
     }
 
@@ -180,7 +185,7 @@ class ContactData extends Component {
 						)
 				})}
 				
-				<Button btnType="Success">Submit</Button>
+				<Button disabled={!this.state.checkFormCompletion} btnType="Success">Submit</Button>
 			</form>
 		)
 		if(this.state.loading) {

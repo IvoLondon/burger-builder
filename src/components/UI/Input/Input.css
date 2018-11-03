@@ -18,3 +18,9 @@
 .Invalid {
 	border:1px solid red;
 }
+
+.ValidationErr {
+	font-size:10px;
+	color:red;
+	margin:4px 0 10px;
+}
