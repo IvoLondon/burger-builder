@@ -9,7 +9,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions'
+import * as actionCreators from '../../store/actions'
 
 
 
@@ -133,8 +133,8 @@ const mapDispatchToProps = (state) => {
 
 const mapStateToProps = (dispatch) => {
     return {
-        addIngredients : (ingr) => dispatch({type : actionTypes.ADD_INGREDIENTS, payload : { ingredientName : ingr }}),
-        removeIngredients : (ingr) => dispatch({type : actionTypes.REMOVE_INGREDIENTS, payload : { ingredientName : ingr }}),
+        addIngredients : (ingr) => dispatch(actionCreators.addIngredients(ingr)),
+        removeIngredients : (ingr) => dispatch(actionCreators.removeIngredients(ingr)),
     }
 }
 
