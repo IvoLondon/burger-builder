@@ -9,7 +9,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 import {connect} from 'react-redux';
-import * as actionCreators from '../../store/actions'
+import * as actionCreators from '../../store/actions/index'
 
 
 
@@ -23,8 +23,6 @@ class BurgerBuilder extends Component {
     state = {
         purchasable: false,
         purchasing: false,
-        loading : false,
-        error : false,
     }
 
 
@@ -51,31 +49,21 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         
-        const queryParams = [];
-        queryParams.push('price='+this.props.totalPrice);
-        for(let i in this.props.ingr) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingr[i]));
-        }
+        // const queryParams = [];
+        // queryParams.push('price='+this.props.totalPrice);
+        // for(let i in this.props.ingr) {
+        //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingr[i]));
+        // }
 
         this.props.history.push({
             pathname : '/checkout',
-            search : '?' + queryParams.join('&'),
+           // search : '?' + queryParams.join('&'),
 
         });
     }
     
     componentDidMount() {
-        // axios.get('https://react-my-burger-d406e.firebaseio.com/ingredients.json')
-        //     .then(response => {
-        //         this.setState({
-        //             ingredients : response.data
-        //         })
-        //     })
-        //     .catch(err => {
-        //         this.setState({
-        //             error : true
-        //         })
-        //     });
+        this.props.getIngredients();
     }
 
     
@@ -90,7 +78,7 @@ class BurgerBuilder extends Component {
         
 
         let orderSummary = null;
-        let burger = this.state.error ? <p>Ingredients cannot be loaded</p> : <Spinner />
+        let burger = this.props.error ? <p>Ingredients cannot be loaded</p> : <Spinner />
         if(this.props.ingr) {
             burger = <Aux>
                         <Burger ingredients={this.props.ingr} />
@@ -109,10 +97,6 @@ class BurgerBuilder extends Component {
                         purchaseContinued={this.purchaseContinueHandler} />;
         }
         
-        if(this.state.loading) {
-            orderSummary = <Spinner />
-        }
-        
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
@@ -124,18 +108,20 @@ class BurgerBuilder extends Component {
     }
 }
 
-const mapDispatchToProps = (state) => {
+const mapStateToProps = (state) => {
     return {
-        ingr : state.ingredients,
-        totalPrice : state.totalPrice,
+        ingr : state.burgerBuilder.ingredients,
+        totalPrice : state.burgerBuilder.totalPrice,
+        error : state.burgerBuilder.error,
     }
 }
 
-const mapStateToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         addIngredients : (ingr) => dispatch(actionCreators.addIngredients(ingr)),
         removeIngredients : (ingr) => dispatch(actionCreators.removeIngredients(ingr)),
+        getIngredients : (ingr) => dispatch(actionCreators.getIngredients()),
     }
 }
 
-export default connect(mapDispatchToProps, mapStateToProps)(withErrorHandler(BurgerBuilder, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

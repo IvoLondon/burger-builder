@@ -5,23 +5,23 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from './store/reducers';
+import thunk from 'redux-thunk'
 
-const logger = (state) => {
-	return (next) => {
-		return action => {
-			console.log(action);
-			const dispatchAction = next(action);
-			console.log(store.getState());
-			return dispatchAction;
-		}
-	}
-}
+import burgerBuilderReducer from './store/reducers/burgerBuilderReducer';
+import ordersReducer from './store/reducers/orderReducer';
+
+
+
+const reducers = combineReducers({
+	burgerBuilder : burgerBuilderReducer,
+	orders : ordersReducer,
+})
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducers, composeEnhancers(applyMiddleware(logger)));
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 const app = <Provider store={store}>
 				<BrowserRouter>
