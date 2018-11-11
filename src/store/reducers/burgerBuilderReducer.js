@@ -44,7 +44,8 @@ const reducers = (state = INITIAL_STATE, actions) => {
 		case actionTypes.SET_INGREDIENTS : 
 			return {
 				...state,
-				ingredients : actions.ingredients
+				ingredients : actions.ingredients,
+				totalPrice : 4,
 			}
 		default : 
 			return state;

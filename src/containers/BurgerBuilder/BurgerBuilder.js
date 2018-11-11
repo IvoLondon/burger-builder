@@ -16,10 +16,6 @@ import * as actionCreators from '../../store/actions/index'
 import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {...}
-    // }
     state = {
         purchasable: false,
         purchasing: false,
@@ -48,17 +44,9 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        
-        // const queryParams = [];
-        // queryParams.push('price='+this.props.totalPrice);
-        // for(let i in this.props.ingr) {
-        //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingr[i]));
-        // }
-
+        this.props.initMakeOrder();
         this.props.history.push({
             pathname : '/checkout',
-           // search : '?' + queryParams.join('&'),
-
         });
     }
     
@@ -121,6 +109,7 @@ const mapDispatchToProps = (dispatch) => {
         addIngredients : (ingr) => dispatch(actionCreators.addIngredients(ingr)),
         removeIngredients : (ingr) => dispatch(actionCreators.removeIngredients(ingr)),
         getIngredients : (ingr) => dispatch(actionCreators.getIngredients()),
+        initMakeOrder : () => dispatch(actionCreators.initMakeOrder()),
     }
 }
 

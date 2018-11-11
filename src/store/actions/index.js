@@ -6,4 +6,6 @@ export {
 
 export {
 	makeOrder,
+	initMakeOrder,
+	getOrders,
 } from './actionCreators/orderActions';

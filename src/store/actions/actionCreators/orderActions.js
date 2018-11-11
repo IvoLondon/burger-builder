@@ -7,6 +7,7 @@ export const makeOrderSuccess = (orderID, orderData) => {
 		loading : false,
 		orderID : orderID,
 		orderData : orderData,
+		purchased : true,
 
 	}
 }
@@ -39,3 +40,52 @@ export const makeOrder = (orderData) => {
 	}
 }
 
+export const initMakeOrder = () => {
+	return {
+		type : actionTypes.INIT_MAKE_ORDER,
+		purchased : false,
+	}
+}
+
+
+
+
+
+export const getOrdersSuccess = (orderData) => {
+	return {
+		type : actionTypes.GET_ORDERS_SUCCESS,
+		loading : false,
+		orders : orderData,
+	}
+}
+
+export const getOrdersFail = () => {
+	return {
+		type : actionTypes.GET_ORDERS_FAIL,
+	}
+}
+
+export const getOrdersInProgress = () => {
+	return {
+		type : actionTypes.GET_ORDERS_IN_PROGRESS,
+	}
+}
+export const getOrders = () => {
+	return (dispatch) => {
+		dispatch(getOrdersInProgress());
+		axios.get('orders.json')
+		.then((res) => {
+			const fetchedOrders = [];
+			for(let singleOrder in res.data) {
+				fetchedOrders.push({
+					...res.data[singleOrder],
+					id : singleOrder
+				});
+			}
+			dispatch(getOrdersSuccess(fetchedOrders));
+		})
+		.catch((err) => {
+			dispatch(getOrdersFail(err));
+		})
+	}
+}
