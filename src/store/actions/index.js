@@ -11,5 +11,6 @@ export {
 } from './actionCreators/orderActions';
 
 export {
-	auth
+	auth,
+	authLogout
 } from './actionCreators/auth'
