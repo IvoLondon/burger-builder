@@ -22,7 +22,7 @@ const reducer = (state = initState, actions) => {
 			return {
 				...state,
 				idtoken : actions.idToken,
-				userId : actions.localId,
+				userid : actions.localId,
 				error : null,
 				loading : false,
 			}
@@ -30,9 +30,17 @@ const reducer = (state = initState, actions) => {
 			return {
 				...state,
 				idtoken : null,
-				userId : null,
+				userid : null,
 				error : actions.error,
 				loading : false,
+			}
+		case actionTypes.AUTH_LOGOUT :
+			return {
+				...state,
+				idtoken : null,
+				userid : null,
+				error : null,
+				loading : false
 			}
 		default : return state;
 	}

@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import * as actionCreators from '../../store/actions/index'
 import Order from './../../components/Order/Order';
 import Spinner from './../../components/UI/Spinner/Spinner'
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from './../../axios-orders';
 
 class Orders extends Component {
 
 	componentWillMount() {
-		this.props.getOrders();
+		this.props.getOrders(this.props.token);
 	}
 	render() {
 		let ordersPage = <Spinner />
@@ -16,7 +17,6 @@ class Orders extends Component {
 			ordersPage = (
 				<div>
 					{ this.props.orders.map((order) => {
-						console.log(order);
 						return <Order key={order.id} ingredients={order.ingredients}  />
 					}) }
 
@@ -31,13 +31,14 @@ const mapStateToProps = (state) => {
 	return {
 		orders : state.orders.orders,
 		loading : state.orders.loading,
+		token : state.auth.idtoken,
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getOrders : () => dispatch(actionCreators.getOrders())
+		getOrders : (token) => dispatch(actionCreators.getOrders(token))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders, axios);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));

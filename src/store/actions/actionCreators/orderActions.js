@@ -26,11 +26,10 @@ export const makeOrderInProgress = () => {
 	}
 }
 
-export const makeOrder = (orderData) => {
-
+export const makeOrder = (orderData, token) => {
 	return (dispatch) => {
 		dispatch(makeOrderInProgress());
-		axios.post('/orders.json', orderData)
+		axios.post('/orders.json?auth=' + token, orderData)
         .then((response) => {
             dispatch(makeOrderSuccess(response.data.name, orderData));
         })
@@ -70,10 +69,11 @@ export const getOrdersInProgress = () => {
 		type : actionTypes.GET_ORDERS_IN_PROGRESS,
 	}
 }
-export const getOrders = () => {
+export const getOrders = (token) => {
 	return (dispatch) => {
 		dispatch(getOrdersInProgress());
-		axios.get('orders.json')
+		console.log(token)
+		axios.get('orders.json?auth=' + token)
 		.then((res) => {
 			const fetchedOrders = [];
 			for(let singleOrder in res.data) {

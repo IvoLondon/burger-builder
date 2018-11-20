@@ -22,12 +22,13 @@ const withErrorHandler = (WrappedComponent, axios) => {
 			axios.interceptors.response.eject(this.responseIndex);
 		}
 		errorConfirmedHandler = () => {
+			console.log('dada');
 			this.setState({ error : null });
 		}
 		render() {
 			return (
 				<Auxx>
-					<Modal show={this.state.error} clicked={this.errorConfirmedHandler}>
+					<Modal show={this.state.error} modalClosed={this.errorConfirmedHandler}>
 						{this.state.error ? this.state.error.message : null}
 					</Modal>
 					<WrappedComponent {...this.props} /> 

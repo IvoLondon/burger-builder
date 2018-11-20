@@ -39,6 +39,7 @@ const mapStateToProps = (state) => {
 		ingr : state.burgerBuilder.ingredients,
 		totalPrice : state.burgerBuilder.totalPrice,
 		purchased : state.orders.purchased,
+		
 	}
 }
 
