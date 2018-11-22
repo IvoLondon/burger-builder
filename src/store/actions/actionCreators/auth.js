@@ -55,3 +55,10 @@ export const auth = (email, password, isSignUp) => {
 		dispatch(authStart());
 	}
 }
+
+export const authSetRedirect = (path) => {
+	return ({
+		type : actionTypes.AUTH_SET_REDIRECT_PATH,
+		path : path,
+	})
+}

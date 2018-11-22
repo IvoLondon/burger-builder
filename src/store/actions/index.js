@@ -12,5 +12,6 @@ export {
 
 export {
 	auth,
-	authLogout
+	authLogout,
+	authSetRedirect,
 } from './actionCreators/auth'

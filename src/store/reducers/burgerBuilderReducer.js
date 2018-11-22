@@ -4,6 +4,7 @@ const INITIAL_STATE = {
 	ingredients : null,
 	totalPrice: 4,
 	error : false,
+	building : false,
 }
 
 
@@ -24,7 +25,8 @@ const reducers = (state = INITIAL_STATE, actions) => {
 			return {
 				...state,
 				ingredients : addIngredients,
-				totalPrice : newAddPrice
+				totalPrice : newAddPrice,
+				building : true,
 			}
 		case actionTypes.REMOVE_INGREDIENTS :
 			const removeIngredients = {...state.ingredients};
@@ -34,7 +36,7 @@ const reducers = (state = INITIAL_STATE, actions) => {
 				...state,
 				ingredients : removeIngredients,
 				totalPrice : newRemovePrice,
-
+				building : true,
 			}
 		case actionTypes.ERR_SET_INGREDIENTS : 
 			return {
@@ -46,6 +48,7 @@ const reducers = (state = INITIAL_STATE, actions) => {
 				...state,
 				ingredients : actions.ingredients,
 				totalPrice : 4,
+				building : false,
 			}
 		default : 
 			return state;
