@@ -7,6 +7,7 @@ import Input from './../../components/UI/Input/Input'
 import * as actionCreators from './../../store/actions/index'
 
 import Spinner from './../../components/UI/Spinner/Spinner'
+import {checkValidityHandler} from './../../shared/checkValidity'
 
 class Auth extends Component {
 	state = {
@@ -43,34 +44,7 @@ class Auth extends Component {
         checkFormCompletion : false,
         signUpMethod : true,
     }
-    checkValidityHandler = (el, rules) => {
-
-        let validationPass = true;
-        if(rules.requiredField) {
-            validationPass = el.trim() != '' && validationPass;
-        }
-        
-        if(rules.minLength) {
-            validationPass = el.length >= rules.minLength && validationPass;
-        }
-
-        if(rules.maxLength) {
-            validationPass = el.length <= rules.maxLength && validationPass;
-        }
-
-        if (rules.isEmail) {
-            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            validationPass = pattern.test(el) && validationPass
-        }
- 
-        if (rules.isNumeric) {
-            const pattern = /^\d+$/;
-            validationPass = pattern.test(el) && validationPass
-        }
-
-        return validationPass;
-
-    }
+    
     changeValueHandler = (ev, id) => {
     	const newObj = {
     		...this.state.authForm
@@ -80,7 +54,7 @@ class Auth extends Component {
         }
 
         newElObj.value = ev.target.value;
-        newElObj.valid = this.checkValidityHandler(newElObj.value, newElObj.validation);
+        newElObj.valid = checkValidityHandler(newElObj.value, newElObj.validation);
         newElObj.touched = true;
         newObj[id] = newElObj;
 

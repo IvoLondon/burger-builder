@@ -6,6 +6,7 @@ import Input from '../../../components/UI/Input/Input'
 import withErrorHandler from './../../../hoc/withErrorHandler/withErrorHandler'
 import { connect } from 'react-redux'
 import axios from '../../../axios-orders';
+import {checkValidityHandler} from './../../../shared/checkValidity'
 
 import * as actionCreators from './../../../store/actions/index';
 
@@ -98,29 +99,11 @@ class ContactData extends Component {
             ingredients : this.props.ingr,
             price : this.props.totalPrice,
             order : orderDetails,
+            userId : this.props.userId,
         }
-        console.log(this.props.token)
         this.props.makeOrder(order, this.props.token);
         
 	}
-    checkValidityHandler = (el, rules) => {
-
-        let validationPass = true;
-        if(rules.requiredField) {
-            validationPass = el.trim() != '' && validationPass;
-        }
-        
-        if(rules.minLength) {
-            validationPass = el.length >= rules.minLength && validationPass;
-        }
-
-        if(rules.maxLength) {
-            validationPass = el.length <= rules.maxLength && validationPass;
-        }
-
-        return validationPass;
-
-    }
     changeValueHandler = (ev, id) => {
         const updatedFormOrderForm = {
             ...this.state.orderForm
@@ -130,7 +113,7 @@ class ContactData extends Component {
         }
 
         updatedElements.value = ev.target.value;
-        updatedElements.valid = this.checkValidityHandler(updatedElements.value, updatedElements.validation);
+        updatedElements.valid = checkValidityHandler(updatedElements.value, updatedElements.validation);
         updatedElements.touched = true;
         updatedFormOrderForm[id] = updatedElements;
 
@@ -196,6 +179,7 @@ const mapStateToProps = (state) => {
         totalPrice : state.burgerBuilder.totalPrice,
         loading : state.orders.loading,
         token : state.auth.idtoken,
+        userId : state.auth.userid,
     }
 }
 

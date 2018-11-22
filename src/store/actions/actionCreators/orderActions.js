@@ -69,11 +69,11 @@ export const getOrdersInProgress = () => {
 		type : actionTypes.GET_ORDERS_IN_PROGRESS,
 	}
 }
-export const getOrders = (token) => {
+export const getOrders = (token, userId) => {
 	return (dispatch) => {
 		dispatch(getOrdersInProgress());
 		console.log(token)
-		axios.get('orders.json?auth=' + token)
+		axios.get('orders.json?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"')
 		.then((res) => {
 			const fetchedOrders = [];
 			for(let singleOrder in res.data) {

@@ -8,7 +8,7 @@ const initialState = {
 
 const orderReducer = (state = initialState, action) => {
 	switch(action.type) {
-		case "MAKE_ORDER_SUCCESS" :
+		case actionTypes.MAKE_ORDER_SUCCESS :
 			const newOrder = {
 				...action.orderData,
 				id : action.orderID,
@@ -21,34 +21,34 @@ const orderReducer = (state = initialState, action) => {
 				purchased : action.purchased,
 
 			}
-		case "MAKE_ORDER_FAIL" : 
+		case actionTypes.MAKE_ORDER_FAIL : 
 			return {
 				...state,
 				loading : action.loading,
 			}
-		case "MAKE_ORDER_IN_PROGRESS" : 
+		case actionTypes.MAKE_ORDER_IN_PROGRESS : 
 			return {
 				...state,
 				loading : action.loading,
 			}
-		case "INIT_MAKE_ORDER" :
+		case actionTypes.INIT_MAKE_ORDER :
 			return {
 				...state,
 				purchased : action.purchased
 			}
 
-		case 'GET_ORDERS_IN_PROGRESS' :
+		case actionTypes.GET_ORDERS_IN_PROGRESS :
 			return {
 				...state,
 				loading : true
 			}
-		case 'GET_ORDERS_SUCCESS' :
+		case actionTypes.GET_ORDERS_SUCCESS :
 			return {
 				...state,
 				loading : false,
 				orders : action.orders,
 			}
-		case 'GET_ORDERS_FAIL' :
+		case actionTypes.GET_ORDERS_FAIL :
 			return {
 				...state,
 				loading : false
